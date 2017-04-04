@@ -1,0 +1,23 @@
+{
+  "name": "crud_node",
+  "version": "1.0.0",
+  "description": "Un intento de crud con mongo db y express",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "crud",
+    "mongodb",
+    "node"
+  ],
+  "author": "jsmorales",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
