@@ -5,11 +5,10 @@
 	<title>CRUD of the force</title>
 </head>
 <body>
-	Que la fuerza nos acompañe.
-	Porque NODEMON es impresionante.
+	<h3>CRUD en node.js</h3>
 	
 	<hr>
-
+	<h4>Frases</h4>
 	<form action="/frases" method="POST">
 		<input type="text" name="nombre" placeholder="ingrese nombre">
 		<br>
@@ -19,12 +18,14 @@
 		<br>
 		<button type="submit">Enviar</button>
 	</form>
+	
+	<p></p>
 
 	<hr>
 
 	<div id="resultados">
 		<%frases.forEach(function(f, id){%>
-			<label>Nombre: </label> <%= f.nombre %> <a href="/show/<%= f.pkID %>">ver</a>
+			<label>Nombre: </label> <%= f.nombre %> <a href="/show/<%= f.pkID %>">ver</a> <a href="/frase/<%= f.pkID %>/edita">editar</a> <a href="/frase/<%= f.pkID %>/delete">eliminar</a>
 			<br> 
 			<label>Frase: </label> <%= f.frase %>
 			<hr>				

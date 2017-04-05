@@ -5,92 +5,38 @@ var session = require('cookie-session')
 var app = express()
 
 //----------------------------------------------------
-var conecta = require('./conexion/conexion_sql.js')
+//obtiene las funciones para ejecutar en cada peticion
+var frasesDAO = require('./DAO/frasesDAO.js')
 //obtiene la conexion a la BD
-var conexion = conecta.getConexion();
+//var conexion = conecta.getConexion();
 //----------------------------------------------------
-/*
-Esto esta escrito en ES6
-*/
+
 app.use(session({secret:'nodejs'}))
 //para poder usar el render
 app.set('view engine', 'ejs')
 //app usea el boy parser para poder leer los atributos
 //pasados por el form en post
+
 app.use(bodyParser.urlencoded({extended:true}))
+//app.use(express.bodyParser())
+//app.use(express.methodOverride())
+//----------------------------------------------------
+//index
+app.get('/', frasesDAO.index)
 
-app.get('/', (llamado, respuesta) => {
-	//respuesta.sendFile(__dirname+'/index.html')
-	//respuesta.send('NODEMON es increíble pero NODE es más.')
-	
-	var query_select = "select * from frases";
+//crear una frase
+app.post('/frases', frasesDAO.inserta)
 
-	conexion.query(query_select, (err, res) => {
-		
-		if (err) {
-			throw err
-		} else {
-					
-			resultado = res.length > 0 ? res : [{"resultado":"No se encontraron resultados."}];			
-		}
-		
-		console.log(resultado)
+//para consultar una frase
+app.get('/show/:id', frasesDAO.ver_frase)
 
-		respuesta.render('index.ejs', {'frases': resultado})
+//carga en un formulario para posterior actualizar
+app.get('/frase/:id/edita', frasesDAO.edita);
 
-		//conexion.end()
-	})
+app.post('/frase/:id', frasesDAO.update);
 
-})
-
-app.post('/frases', (llamado, respuesta) => {
-	
-	console.log(llamado.body);
-	//INSERT INTO `frases` (`pkID`, `nombre`, `frase`) VALUES (NULL, 'yoda', 'master')
-	var query_insert = "INSERT INTO `frases` (`pkID`, `nombre`, `frase`) VALUES (NULL, '"+llamado.body.nombre+"', '"+llamado.body.frase+"')";	
-
-	conexion.query(query_insert, (err, res) => {
-		
-		if (err) {
-			throw err
-		} else {
-					
-			resultado = res;			
-		}
-		
-		console.log(resultado)
-
-		respuesta.redirect('/')
-
-		//conexion.end()
-	})
-})
-
-app.get('/show/:id', function(llamado, respuesta){
-	
-	//console.log(llamado.params)
-
-	var query_select_f = "select * from frases where pkID = "+ llamado.params.id;
-
-	conexion.query(query_select_f, (err, res) => {
-		
-		if (err) {
-			throw err
-		} else {
-					
-			resultado = res.length > 0 ? res : [{"resultado":"No se encontraron resultados."}];	;			
-		}
-		
-		console.log(resultado)
-
-		respuesta.render('show_frase.ejs', {'frase': resultado[0]})
-
-		//conexion.end()
-	})
-
-})
-
+app.get('/frase/:id/delete', frasesDAO.destroy);
+//----------------------------------------------------
 app.listen(3000, function(){
 	console.log('May Node be with you')
 })
-

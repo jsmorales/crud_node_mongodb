@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>CRUD of the force</title>
+</head>
+<body>
+	
+	<form action="/frase/<%= frase.pkID %>" method="POST">
+		
+		<input type="hidden" name="_method" value="put">
+
+		<input type="text" name="nombre" placeholder="ingrese nombre" value="<%= frase.nombre %>">
+		<br>
+		<br>
+		<input type="text" name="frase" placeholder="Ingrese frase" value="<%= frase.frase %>">
+		<br>
+		<br>
+		<button type="submit">Enviar</button>
+	</form>
+
+</body>
+</html>
