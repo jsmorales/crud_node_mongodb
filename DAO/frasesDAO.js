@@ -6,15 +6,64 @@ var conexion = conecta.getConexion();
 
 var resultado = [];
 
-var query_select = "select * from frases";
+
 //--------------------------------------------------
 
 /*
 Esto esta escrito en ES6
 */
 
-exports.index = (llamado, respuesta) => {
+creaScript = function (nomTabla,arrAttrs) {
 	
+	this.nomTabla = nomTabla;
+	this.arrAttrs = arrAttrs;
+	this.script = '';
+}
+
+creaScript.prototype = {
+
+	select: function () {
+
+		var self = this;
+
+		this.script += 'select ';
+
+		this.script = this.arrAttrs.length == 0 ? this.script += '* ' : this.attrs_select();
+
+		this.script += 'from '+this.nomTabla;
+
+		console.log(this.script)
+
+		return this.script;
+	},
+	attrs_select : function(){
+
+		var self = this;
+
+		this.arrAttrs.forEach( function(element, index) {
+				
+			console.log(self.script);
+			console.log(element);
+
+			var attr_length = self.arrAttrs.length;
+
+			element = (attr_length - 1) == index ? element += ' ' : element += ', ';
+
+			self.script += element;
+		});
+
+		return this.script;
+	}
+}
+
+exports.index = (llamado, respuesta) => {
+
+	var query_s = new creaScript('frases', []);
+
+	var query_select = query_s.select();
+	
+	//-----------------------------------------
+
 	conexion.query(query_select, (err, res) => {
 		
 		if (err) {
