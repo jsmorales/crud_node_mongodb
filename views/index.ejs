@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>CRUD of the force</title>
+</head>
+<body>
+	Que la fuerza nos acompañe.
+	Porque NODEMON es impresionante.
+	
+	<hr>
+
+	<form action="/frases" method="POST">
+		<input type="text" name="nombre" placeholder="ingrese nombre">
+		<br>
+		<br>
+		<input type="text" name="frase" placeholder="Ingrese frase">
+		<br>
+		<br>
+		<button type="submit">Enviar</button>
+	</form>
+
+	<hr>
+
+	<div id="resultados">
+		<%frases.forEach(function(f, id){%>
+			<label>Nombre: </label> <%= f.nombre %> <a href="/show/<%= f.pkID %>">ver</a>
+			<br> 
+			<label>Frase: </label> <%= f.frase %>
+			<hr>				
+		<%}) %>
+	</div>
+</body>
+</html>
