@@ -53,6 +53,31 @@ creaScript.prototype = {
 		});
 
 		return this.script;
+	},
+	insert : function(){
+
+		var self = this;
+
+		this.script = 'INSERT INTO `'+this.nomTabla+'` ';
+
+		this.arrAttrs.forEach( function(element, index) {
+			console.log(element);
+			console.log(index);
+			
+			//(`pkID`, `nombre`, `frase`)
+			self.script += '( pkID, ';
+
+			for (var i in element) {
+				console.log(i);
+				
+				self.script += i+', ';
+
+				console.log(element[i]);
+			};
+
+		})
+
+		console.log(this.script);
 	}
 }
 
@@ -83,6 +108,12 @@ exports.inserta = (llamado, respuesta) => {
 
 	var query_insert = "INSERT INTO `frases` (`pkID`, `nombre`, `frase`) VALUES (NULL, '"+llamado.body.nombre+"', '"+llamado.body.frase+"')";	
 
+	//console.log(llamado.body);
+
+	var query_i = new creaScript('frases', [llamado.body]);
+
+	var query_insert = query_i.insert();
+	/*
 	conexion.query(query_insert, (err, res) => {
 		
 		if (err) {
@@ -95,7 +126,7 @@ exports.inserta = (llamado, respuesta) => {
 		console.log(resultado)
 
 		respuesta.redirect('/')
-	})
+	})*/
 }
 
 exports.ver_frase = (llamado, respuesta) => {
